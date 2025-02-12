@@ -1,0 +1,185 @@
+:root {
+    --primary-color: #ff4d6d;
+    --secondary-color: #ff758c;
+    --background-gradient: linear-gradient(135deg, var(--secondary-color), #ff7eb3);
+    --font-heading: 'Amatic SC', cursive;
+    --font-body: 'Indie Flower', cursive;
+    --text-color: #2a2a2a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--text-color);
+    overflow: hidden;
+    background: var(--background-gradient) #ff7eb3;
+}
+
+/* Floating Hearts */
+.heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes floatHearts {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-50px) scale(1.2) rotate(10deg); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1) rotate(20deg); opacity: 0; }
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: clamp(18px, 2vw, 32px);
+    color: var(--primary-color);
+    opacity: 0;
+    animation: floatHearts linear infinite;
+    will-change: transform, opacity;
+}
+
+.heart:nth-child(odd) { left: 5%; animation-duration: 6s; }
+.heart:nth-child(even) { left: 95%; animation-duration: 7s; }
+.heart:nth-child(3n) { left: 30%; animation-duration: 8s; }
+.heart:nth-child(5n) { left: 70%; animation-duration: 5s; }
+
+/* Flip Card */
+.card {
+    width: min(90vw, 420px);
+    height: min(80vh, 520px);
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner,
+.card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.card-back {
+    background: rgba(255, 182, 193, 0.95);
+    transform: rotateY(180deg);
+}
+
+/* Text Styling */
+h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+p {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    line-height: 1.6;
+    max-width: 80%;
+    margin: 0.5rem 0;
+}
+
+.signature {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Music Controls */
+.music-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#muteBtn {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    display: none;
+}
+
+#muteBtn:hover {
+    transform: scale(1.1);
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .heart {
+        animation: none !important;
+        opacity: 0.5 !important;
+    }
+    .card-inner {
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: more) {
+    .card-front,
+    .card-back {
+        background: #fff;
+    }
+    h1 {
+        color: #c3002f;
+    }
+}
+
+@media (max-width: 768px) {
+    #muteBtn {
+        display: block;
+    }
+}

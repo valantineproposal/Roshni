@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A heartfelt Valentine's Day proposal website">
+    <title>Happy Valentine's Day 💖</title>
+    <!-- Font Preloading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Hearts Container -->
+    <div class="heart-container" aria-hidden="true">
+        <span class="heart">❤</span>
+        <span class="heart">💖</span>
+        <span class="heart">💕</span>
+        <span class="heart">💘</span>
+        <span class="heart">💞</span>
+        <span class="heart">💓</span>
+        <span class="heart">❤</span>
+        <span class="heart">💗</span>
+        <span class="heart">💖</span>
+        <span class="heart">💕</span>
+    </div>
+
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <button id="muteBtn" aria-label="Toggle music">
+            <span class="icon">🎵</span>
+            <span class="icon hidden">🔇</span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Valentine Flip Card -->
+        <div class="card" role="region" aria-label="Valentine's Day Proposal Card">
+            <div class="card-inner">
+                <!-- Front Side -->
+                <div class="card-front">
+                    <h1>Happy Valentine's Day</h1>
+                    <p>Dear test,</p>
+                    <p>I want to be with you forever...</p>
+                </div>
+                <!-- Back Side -->
+                <div class="card-back">
+                    <h1>Will you be my Valentine?</h1>
+                    <p>Cause your hug makes me shine 😊</p>
+                    <p class="signature">🧡test</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="Untitled video - Made with Clipchamp.mp3" type="audio/mpeg">
+        Your browser does not support audio playback.
+    </audio>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.card');
+            const music = document.getElementById('backgroundMusic');
+            const muteBtn = document.getElementById('muteBtn');
+            const icons = muteBtn.querySelectorAll('.icon');
+
+            // Handle interactions
+            const startInteraction = () => {
+                try {
+                    music.play().then(() => {
+                        muteBtn.style.display = 'block';
+                    }).catch(() => {
+                        muteBtn.style.display = 'block';
+                    });
+                } catch (e) {
+                    muteBtn.style.display = 'block';
+                }
+                card.classList.toggle('flipped');
+            };
+
+            // Event Listeners
+            card.addEventListener('click', startInteraction);
+            card.addEventListener('mouseenter', () => {
+                if(window.matchMedia("(hover: hover)").matches) {
+                    startInteraction();
+                }
+            });
+
+            muteBtn.addEventListener('click', () => {
+                music.muted = !music.muted;
+                icons.forEach(icon => icon.classList.toggle('hidden'));
+            });
+
+            // Initial interaction handler
+            document.body.addEventListener('click', () => {
+                music.play().catch(() => {});
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
